@@ -18,19 +18,31 @@ const Home: NextPage = () => {
     const [scrollYPosition, setScrollYPosition] = useState(0);
 
     const handleWheel = (event:WheelEvent) =>{
-        event.preventDefault()
-        if (event.deltaY>30){
-            setCurrentPage(currentPage+1)
-            setScrollYPosition(window.innerHeight*currentPage)
-            console.log(scrollYPosition)
-            removeEventListener('wheel', handleWheel)
 
-        }}
+        if (event.deltaY>30 && currentPage < 10){
+            removeEventListener('wheel', handleWheel)
+            setCurrentPage(currentPage+1)
+        }
+        else if (event.deltaY<-30 && currentPage>0){
+            removeEventListener('wheel', handleWheel)
+            setCurrentPage(currentPage-1)
+        }
+    }
 
     useEffect(()=>{
-        addEventListener("wheel", handleWheel,{
-            passive:false
-        });
+        setScrollYPosition(currentPage * window.innerHeight)
+        setTimeout(()=>{
+            addEventListener("wheel", handleWheel);
+        }, 1000)
+    },[currentPage])
+
+    useEffect(()=>{
+            addEventListener("wheel", (event)=>{
+                event.preventDefault()
+            },{
+                passive:false
+            });
+        addEventListener("wheel", handleWheel);
         addEventListener('scroll', (event)=>{
             event.preventDefault()
         },{passive:false})
@@ -38,7 +50,7 @@ const Home: NextPage = () => {
     },
         [])
     return (
-        <div className="max-h-screen" style={{transform: `translateY(-${scrollYPosition}px)`}}>
+        <div className="max-h-screen transition-all duration-500" style={{transform: `translateY(-${scrollYPosition}px)`}}>
             <FirstPage />
             <SecondPage/>
             <ThirdPage />
