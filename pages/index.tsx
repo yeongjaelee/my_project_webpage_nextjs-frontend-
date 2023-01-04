@@ -1,4 +1,5 @@
-
+import React from 'react';
+import {ReactDOM} from "react";
 import type { NextPage } from "next";
 import FirstPage from "../components/FirstPage";
 import SecondPage from "../components/SecondPage";
@@ -13,10 +14,10 @@ import ThirdPointPage from "../components/ThirdPointPage";
 import TenthPage from "../components/TenthPage";
 import {useEffect, useState} from "react";
 
+
 const Home: NextPage = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [scrollYPosition, setScrollYPosition] = useState(0);
-
     const handleWheel = (event:WheelEvent) =>{
 
         if (event.deltaY>30 && currentPage < 10){
@@ -28,12 +29,11 @@ const Home: NextPage = () => {
             setCurrentPage(currentPage-1)
         }
     }
-
     useEffect(()=>{
         setScrollYPosition(currentPage * window.innerHeight)
         setTimeout(()=>{
             addEventListener("wheel", handleWheel);
-        }, 1000)
+        }, 500)
     },[currentPage])
 
     useEffect(()=>{
@@ -46,11 +46,11 @@ const Home: NextPage = () => {
         addEventListener('scroll', (event)=>{
             event.preventDefault()
         },{passive:false})
-
     },
         [])
     return (
         <div className="max-h-screen transition-all duration-500" style={{transform: `translateY(-${scrollYPosition}px)`}}>
+            <TenthPage />
             <FirstPage />
             <SecondPage/>
             <ThirdPage />
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
             <SeventhPage />
             <EigthPage />
             <NinthPage />
-            <TenthPage />
+
         </div>
     );
 };
