@@ -48,9 +48,9 @@ const Home: NextPage = () => {
         },{passive:false})
     },
         [])
+
     return (
         <div className="max-h-screen transition-all duration-500" style={{transform: `translateY(-${scrollYPosition}px)`}}>
-            <TenthPage />
             <FirstPage />
             <SecondPage/>
             <ThirdPage />
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
             <SeventhPage />
             <EigthPage />
             <NinthPage />
-
+            <TenthPage />
         </div>
     );
 };

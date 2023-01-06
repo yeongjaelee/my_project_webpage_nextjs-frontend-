@@ -12,7 +12,7 @@ const ThirdPage = () => {
                 height="500"
                 width="500"
             />
-            <div className="text-4xl">
+            <div className="flex flex-col space-y-8 text-4xl lg:text-5xl mb-2 lg:mb-5 text-center">
                 언제까지 인터넷만 <br/>
                 뒤져 보시려구요??
             </div>
