@@ -8,7 +8,7 @@ import chatting_4 from "../public/images/chatting_4.png";
 
 const sixthPage = () => {
     return (
-        <div>
+        <div id="sixth">
             <div className="flex flex-col items-center justify-center min-h-screen align-top">
                 <Image src={chatting_1}
                        alt="image test"

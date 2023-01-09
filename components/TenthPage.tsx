@@ -109,7 +109,6 @@ const TenthPage = () => {
         setCurrentPage(1)
         setEmail('')
         setContents('')
-        window.location.reload()
     }
     useEffect(()=>{
         getQuestions().then(_ => {
@@ -162,7 +161,7 @@ const TenthPage = () => {
 
     // @ts-ignore
     return (
-        <div className="flex flex-col justify-center min-h-screen md:container lg:container ml-auto mr-auto pl-6">
+        <div className="flex flex-col justify-center min-h-screen md:container lg:container ml-auto mr-auto pl-6" id="tenth">
             <div className='mr-auto'>
                 <div className="text-2xl lg:text-4xl">
                     무엇이든 물어보세요

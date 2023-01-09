@@ -5,7 +5,7 @@ import plan from "../public/images/plan.png";
 const EigthPage = () => {
 
     return (
-        <div>
+        <div id="eighth">
             <div className="flex flex-col items-center justify-center min-h-screen align-top">
                 <div className="text-2xl lg:text-4xl font-light">
                     상담 받은 내용을 토대로
