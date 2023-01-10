@@ -42,7 +42,6 @@ const Home: NextPage = () => {
         <TenthPage key={10}/>,
     ]
 
-
     const [prevTouchY, setPrevTouchY] = useState(0);
     const [currentTouchY, setCurrentTouchY] = useState(0);
     const [isPageMoved, setIsPageMoved] = useState(false)
@@ -59,9 +58,7 @@ const Home: NextPage = () => {
     const touchHandler = (e: TouchEvent) => {
         e.preventDefault()
         setCurrentTouchY(e.changedTouches[0].clientY)
-
     };
-
     useEffect(()=>{
         if (currentTouchY > prevTouchY + 20) {
             if (currentPage > 0) {
@@ -113,7 +110,6 @@ const Home: NextPage = () => {
             case 9:
                 page = document.getElementById('tenth')!
                 break
-
         }
         setScrollYPosition(currentPage * page.getBoundingClientRect().height)
 
@@ -137,14 +133,10 @@ const Home: NextPage = () => {
             addEventListener('touchend', touchHandler,{passive:false});
 
         },
-
         [])
-
-
     return (
         <div className="max-h-screen transition-all duration-500" style={{transform: `translateY(-${scrollYPosition}px)`}}
              onTouchStart={(_)=>{
-
                  const inputs = document.querySelectorAll('input')
                  inputs.forEach((i)=>{
                      i.blur()
@@ -155,5 +147,4 @@ const Home: NextPage = () => {
         </div>
     );
 };
-
 export default Home;
