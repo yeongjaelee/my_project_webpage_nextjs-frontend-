@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import plan from "../public/images/plan.png";
+import plan from "../../../public/images/plan.png";
 
 const EigthPage = () => {
 

@@ -1,150 +1,29 @@
 import React from 'react';
 import type { NextPage } from "next";
-import FirstPage from "../components/FirstPage";
-import SecondPage from "../components/SecondPage";
-import ThirdPage from "../components/ThirdPage";
-import FourthPage from "../components/FourthPage";
-import FifthPage from "../components/FifthPage";
-import SixthPage from "../components/SixthPage";
-import SeventhPage from "../components/SeventhPage";
-import EighthPage from "../components/EigthPage";
-import NinthPage from "../components/NinthPage";
-import TenthPage from "../components/TenthPage";
-import {useEffect, useState} from "react";
-import ThirdPointPage from "../components/ThirdPointPage";
+import {Router, useRouter} from "next/router";
+import LandingPage from "./components/LandingPage/LandingPage";
 
-
-const Home: NextPage = () => {
-    const [currentPage, setCurrentPage] = useState(0);
-    const [scrollYPosition, setScrollYPosition] = useState(0);
-    const handleWheel = (event:WheelEvent) =>{
-        if (event.deltaY>30 && currentPage < 10){
-            removeEventListener('wheel', handleWheel)
-            setCurrentPage(currentPage+1)
+const Home = () => {
+    const router = useRouter()
+    const handleClick = (path: string) => {
+        console.log(path);
+        if (path === "LandingPage") {
+            console.log(1);
+            router.push('components/LandingPage/LandingPage')
         }
-        else if (event.deltaY<-30 && currentPage>0){
-            removeEventListener('wheel', handleWheel)
-            setCurrentPage(currentPage-1)
-        }
-    }
-
-    const pages = [
-        <FirstPage key={1}/>,
-        <SecondPage key={2}/>,
-        <ThirdPage key={3}/>,
-        <ThirdPointPage key={3.5}/>,
-        <FourthPage key={4}/>,
-        <FifthPage key={5}/>,
-        <SixthPage key={6}/>,
-        <SeventhPage key={7}/>,
-        <EighthPage key={8}/>,
-        <NinthPage key={9}/>,
-        <TenthPage key={10}/>,
-    ]
-
-    const [prevTouchY, setPrevTouchY] = useState(0);
-    const [currentTouchY, setCurrentTouchY] = useState(0);
-    const [isPageMoved, setIsPageMoved] = useState(false)
-
-
-
-    const touchStartHandler = (e: TouchEvent) => {
-        console.log(e.touches[0].clientY)
-        e.preventDefault()
-        setPrevTouchY(e.touches[0].clientY);
     };
-
-
-    const touchHandler = (e: TouchEvent) => {
-        e.preventDefault()
-        setCurrentTouchY(e.changedTouches[0].clientY)
-    };
-    useEffect(()=>{
-        if (currentTouchY > prevTouchY + 20) {
-            if (currentPage > 0) {
-                setCurrentPage(currentPage - 1);
-            }
-        }
-        if (currentTouchY < prevTouchY - 20) {
-            if (currentPage < 10) {
-                setCurrentPage(currentPage + 1);
-            }
-        }
-
-    }, [currentTouchY])
-
-
-    useEffect(()=>{
-        let page = document.getElementById('first')!
-        switch (currentPage){
-            case 0:
-                page = document.getElementById('first')!
-                break
-            case 1:
-                page = document.getElementById('second')!
-                break
-            case 2:
-                page = document.getElementById('third')!
-                break
-            case 3:
-                page = document.getElementById('forth')!
-                break
-            case 3.5:
-                page = document.getElementById('third_point_forth')!
-                break
-            case 4:
-                page = document.getElementById('fifth')!
-                break
-            case 5:
-                page = document.getElementById('sixth')!
-                break
-            case 6:
-                page = document.getElementById('seventh')!
-                break
-            case 7:
-                page = document.getElementById('eighth')!
-                break
-            case 8:
-                page = document.getElementById('ninth')!
-                break
-            case 9:
-                page = document.getElementById('tenth')!
-                break
-        }
-        setScrollYPosition(currentPage * page.getBoundingClientRect().height)
-
-        setTimeout(()=>{
-            addEventListener("wheel", handleWheel);
-        }, 500)
-    },[currentPage])
-
-    useEffect(()=>{
-            setTimeout(()=>window.scrollTo(0,1),0)
-            addEventListener("wheel", (event)=>{
-                event.preventDefault()
-            },{
-                passive:false
-            });
-            addEventListener("wheel", handleWheel);
-            addEventListener('scroll', (event)=>{
-                event.preventDefault()
-            },{passive:false})
-            addEventListener('touchstart', touchStartHandler,{passive:false});
-            addEventListener('touchend', touchHandler,{passive:false});
-
-        },
-        [])
     return (
-        <div className="max-h-screen transition-all duration-500" style={{transform: `translateY(-${scrollYPosition}px)`}}
-             onTouchStart={(_)=>{
-                 const inputs = document.querySelectorAll('input')
-                 inputs.forEach((i)=>{
-                     i.blur()
-                 })
-             }}
-        >
-            {pages}
+        <div>
+            <div className="flex flex-col text-center text-3xl my-10">
+                yeongjae's project
+            </div>
+
+        <button className="text-2xl" type="button" onClick={() => handleClick("LandingPage")}>
+            Landing Page <br/>
+            at the work
+        </button>
         </div>
-    );
+    )
+
 };
 export default Home;

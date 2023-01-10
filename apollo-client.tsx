@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import React from 'react';
 
 const client = new ApolloClient({
-    uri: "https://api.trippy.blocket.co.kr/graphql",
+    uri: "http://0.0.0.0:8000/graphql",
     cache: new InMemoryCache(),
 });
 

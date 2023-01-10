@@ -6,7 +6,7 @@ TimeAgo.addLocale(ru)
 import React, {FormEventHandler, useEffect, useState} from 'react';
 
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
-import client from '../apollo-client'
+import client from '../../../apollo-client'
 import {useForm} from "react-hook-form";
 import ReactTimeAgo from "react-time-ago";
 import {max} from "rxjs";

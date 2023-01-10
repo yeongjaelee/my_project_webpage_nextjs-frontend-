@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import jeju_island from "../public/images/jeju_island.png";
+import jeju_island from "../../../public/images/jeju_island.png";
 const FifthPage = () => {
     return (
         <div id="fifth">
