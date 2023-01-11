@@ -1,17 +1,17 @@
 import React from 'react';
 import type { NextPage } from "next";
 import {useEffect, useState} from "react";
-import FirstPage from "./FirstPage";
-import SecondPage from "./SecondPage";
-import ThirdPage from "./ThirdPage";
-import ThirdPointPage from "./ThirdPointPage";
-import FourthPage from "./FourthPage";
-import FifthPage from "./FifthPage";
-import SixthPage from "./SixthPage";
-import SeventhPage from "./SeventhPage";
-import NinthPage from "./NinthPage";
-import TenthPage from "./TenthPage";
-import EigthPage from "./EigthPage";
+import FirstPage from "./components/LandingPage/FirstPage";
+import SecondPage from "./components/LandingPage/SecondPage";
+import ThirdPage from "./components/LandingPage/ThirdPage";
+import ThirdPointPage from "./components/LandingPage/ThirdPointPage";
+import FourthPage from "./components/LandingPage/FourthPage";
+import FifthPage from "./components/LandingPage/FifthPage";
+import SixthPage from "./components/LandingPage/SixthPage";
+import SeventhPage from "./components/LandingPage/SeventhPage";
+import NinthPage from "./components/LandingPage/NinthPage";
+import TenthPage from "./components/LandingPage/TenthPage";
+import EigthPage from "./components/LandingPage/EigthPage";
 
 
 const LandingPage: NextPage = () => {
