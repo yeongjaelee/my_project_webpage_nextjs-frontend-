@@ -20,7 +20,9 @@ export default function SideBar({children}) {
             <header
                 className="flex justify-center items-center font-semibold text-3xl m-5"
             >
-                yeongjae's project page
+                <Link href="/" className="text-black">
+                    yeongjae's project page
+                </Link>
             </header>
             <div className="flex flex-row">
                     <nav>
@@ -33,6 +35,6 @@ export default function SideBar({children}) {
             </div>
             <main className="">{children}</main>
         </div>
-        // Todo
+
     );
 }

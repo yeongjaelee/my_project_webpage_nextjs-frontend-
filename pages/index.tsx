@@ -16,17 +16,8 @@ const Home = () => {
         }
     };
     return (
-        <div>
-            <div className="flex flex-col text-center text-3xl my-10">
-                <button type="button" onClick={() => handleClick("Home")}>
-                    yeongjae's project
-                </button>
-            </div>
-
-        <button className="text-2xl" type="button" onClick={() => handleClick("LandingPage")}>
-            Landing Page <br/>
-            at the work
-        </button>
+        <div className="flex flex-col items-center h-screen justify-center text-3xl">
+            Here is the homepage
         </div>
     )
 
