@@ -13,6 +13,10 @@ export default function SideBar({children}) {
         {
             href: '/LandingPage',
             title: 'Landing_page',
+        },
+        {
+            href: '/Login',
+            title: 'Login',
         }
     ];
     return (
