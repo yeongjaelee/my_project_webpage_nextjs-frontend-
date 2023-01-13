@@ -26,7 +26,7 @@ const Login = () => {
             alert('login success')
         }
         catch {
-            alert('login fail')
+            alert('login fail, try again')
         }
     }
     // @ts-ignore
