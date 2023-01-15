@@ -1,10 +1,15 @@
 import Link from "next/link";
-import {useRouter} from "next/router";
-
+import { useRouter } from "next/router"
 
 // @ts-ignore
-export default function SideBar({children}) {
-    const router = useRouter();
+export default function SideBar({children, query}) {
+    //console.log({location.data})
+    console.log(query)
+    const router = useRouter()
+    const {
+        query: { data },
+    } = router
+    console.log(data)
     const menuItems = [
         {
             href: '/',
@@ -27,6 +32,9 @@ export default function SideBar({children}) {
                 <Link href="/" className="text-black">
                     yeongjae's project page
                 </Link>
+                <div>
+                    welcome {data}
+                </div>
             </header>
             <div className="flex flex-row">
                     <nav>

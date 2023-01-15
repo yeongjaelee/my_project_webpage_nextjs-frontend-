@@ -1,6 +1,8 @@
-import React, {FormEventHandler, useState} from 'react';
+import React, {FormEventHandler, useEffect, useState} from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 import client from "../apollo-client";
+import {useRouter} from "next/router";
+
 const GET_USER = gql`
     query User($identification:String!){
       user(identification:$identification) {
@@ -13,22 +15,32 @@ const GET_USER = gql`
 `;
 
 const Login = () => {
+    const router = useRouter()
     const [identification, setIdentification] = useState('')
     const [password, setPassword] = useState('')
-    const userhandle: FormEventHandler = async(e) => {
+    const userhandle: FormEventHandler = async (e) => {
         e.preventDefault()
         try {
+            if (!identification) {
+                return alert("ID를 입력하세요.");
+            }
+            else if (!password) {
+                return alert("Password를 입력하세요.");
+            }
             const {loading, error, data} = await client.query({
                 query: GET_USER, variables: {
                     identification
                 }
-            },);
-            alert('login success')
-        }
+            })
+            alert('welcome');
+            router.push({pathname:'/', query:{data:data.user.identification}})
+            }
         catch {
-            alert('login fail, try again')
-        }
-    }
+                alert('set the id, password again')
+              }
+    };
+
+
     // @ts-ignore
     return (
         <div className="flex flex-col items-center justify-center ">
@@ -38,7 +50,7 @@ const Login = () => {
                 </div>
                 <div>
                     <input className="outline outline-1 w-60"
-                           onChange={e=>setIdentification(e.target.value)}
+                           onChange={e => setIdentification(e.target.value)}
                            value={identification}/>
                 </div>
                 <div className="text-2xl">
@@ -46,7 +58,7 @@ const Login = () => {
                 </div>
                 <div>
                     <input className="outline outline-1 w-60"
-                           onChange={e=>setPassword(e.target.value)}
+                           onChange={e => setPassword(e.target.value)}
                            value={password}/>
                 </div>
                 <button className="outline outline-1 p-1">login</button>
