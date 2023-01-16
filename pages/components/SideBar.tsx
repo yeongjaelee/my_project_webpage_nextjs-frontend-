@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router"
 
 // @ts-ignore
-export default function SideBar({children, query}) {
+export default function SideBar({children, query}: {children: any, query: any}) {
     //console.log({location.data})
     console.log(query)
     const router = useRouter()
@@ -27,9 +27,9 @@ export default function SideBar({children, query}) {
     return (
         <div className="min-h-screen flex flex-col">
             <header
-                className="flex justify-center items-center font-semibold text-3xl m-5"
+                className="flex justify-center items-center font-semibold m-5"
             >
-                <Link href="/" className="text-black">
+                <Link href="/" className="text-black text-3xl ">
                     yeongjae's project page
                 </Link>
                 <div>

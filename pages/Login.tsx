@@ -20,24 +20,44 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const userhandle: FormEventHandler = async (e) => {
         e.preventDefault()
-        try {
-            if (!identification) {
-                return alert("ID를 입력하세요.");
-            }
-            else if (!password) {
-                return alert("Password를 입력하세요.");
-            }
-            const {loading, error, data} = await client.query({
-                query: GET_USER, variables: {
-                    identification
-                }
-            })
-            alert('welcome');
-            router.push({pathname:'/', query:{data:data.user.identification}})
-            }
-        catch {
-                alert('set the id, password again')
-              }
+         const {loading, error, data} = await client.query({
+             query: GET_USER, variables: {
+                 identification
+             }
+         })
+         if (!identification) {
+             return alert("put the id.");
+         }
+         else if (!password) {
+             return alert("put the password.");
+         }
+
+        if(data.user.identification==""){
+            return alert("try again")
+        }
+        else{
+            return alert('welcome')
+        }
+
+
+        // try {
+        //     if (!identification) {
+        //         return alert("ID를 입력하세요.");
+        //     }
+        //     else if (!password) {
+        //         return alert("Password를 입력하세요.");
+        //     }
+        //     const {loading, error, data} = await client.query({
+        //         query: GET_USER, variables: {
+        //             identification
+        //         }
+        //     })
+        //     alert('welcome');
+        //     router.push({pathname:'/', query:{data:data.user.identification}})
+        //     }
+        // catch {
+        //         alert('set the id, password again')
+        //       }
     };
 
 

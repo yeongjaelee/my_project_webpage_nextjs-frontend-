@@ -3,11 +3,11 @@ import type { AppProps } from 'next/app'
 import SideBar from "./components/SideBar";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return(
-      <SideBar>
-        <Component {...pageProps} />
-      </SideBar>
+    return(
+          <SideBar>
+            <Component {...pageProps} />
+          </SideBar>
   )
-
-
 }
+
+
