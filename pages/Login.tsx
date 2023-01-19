@@ -2,6 +2,10 @@ import React, {FormEventHandler, useEffect, useState} from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 import client from "../apollo-client";
 import {useRouter} from "next/router";
+import query from "apollo-cache-inmemory/lib/fragmentMatcherIntrospectionQuery";
+import {setCookie} from "./components/token/Cookie";
+import {useCookies} from "react-cookie";
+import {set} from "react-hook-form";
 
 const GET_USER = gql`
     query User($identification:String!){
@@ -13,18 +17,29 @@ const GET_USER = gql`
       }
     }
 `;
-
+const GET_TOKEN = gql`
+mutation TokenAuth($identification: String!, $password: String!) {
+    tokenAuth(identification: $identification, password: $password) {
+        token
+        payload
+        refreshExpiresIn
+    }
+}
+`;
 const Login = () => {
     const router = useRouter()
     const [identification, setIdentification] = useState('')
     const [password, setPassword] = useState('')
+    //const [cookies, setCookie] = useCookies(['token']);
     const userhandle: FormEventHandler = async (e) => {
         e.preventDefault()
-         const {loading, error, data} = await client.query({
+         const {data} = await client.query({
              query: GET_USER, variables: {
                  identification
              }
          })
+        // @ts-ignore
+        const {data:token_data} = await client.mutate({mutation: GET_TOKEN, variables: {identification, password}});
          if (!identification) {
              return alert("put the id.");
          }
@@ -35,8 +50,21 @@ const Login = () => {
         if(data.user.identification==""){
             return alert("try again")
         }
+        else if(data.user.identification=="yeong"){
+            console.log('here is remove token')
+            localStorage.removeItem('token')
+        }
         else{
-            return alert('welcome')
+            //console.log(token_data.tokenAuth.token)
+            //setCookie('token', token_data.tokenAuth.token)
+            alert('welcome');
+            localStorage.setItem('token', token_data.tokenAuth.token)
+            localStorage.setItem('identification', identification)
+            await router.push(
+                { pathname:'/',
+                    query:{
+                    identification: data.user.identification
+                    }});
         }
 
 

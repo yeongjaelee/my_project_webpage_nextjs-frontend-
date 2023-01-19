@@ -2,14 +2,9 @@ import Link from "next/link";
 import { useRouter } from "next/router"
 
 // @ts-ignore
-export default function SideBar({children, query}: {children: any, query: any}) {
+export default function SideBar({children}: {children: any}) {
     //console.log({location.data})
-    console.log(query)
     const router = useRouter()
-    const {
-        query: { data },
-    } = router
-    console.log(data)
     const menuItems = [
         {
             href: '/',
@@ -32,9 +27,7 @@ export default function SideBar({children, query}: {children: any, query: any}) 
                 <Link href="/" className="text-black text-3xl ">
                     yeongjae's project page
                 </Link>
-                <div>
-                    welcome {data}
-                </div>
+
             </header>
             <div className="flex flex-row">
                     <nav>

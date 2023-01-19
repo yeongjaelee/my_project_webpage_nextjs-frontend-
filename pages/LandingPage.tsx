@@ -12,9 +12,19 @@ import SeventhPage from "./components/LandingPage/SeventhPage";
 import NinthPage from "./components/LandingPage/NinthPage";
 import TenthPage from "./components/LandingPage/TenthPage";
 import EigthPage from "./components/LandingPage/EigthPage";
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import client from "../apollo-client";
 
-
+const VERIFY_TOKEN = gql
+    `mutation VerifyToken($token: String!) {
+    verifyToken(token: $token) {
+        payload
+    }
+}`;
 const LandingPage: NextPage = () => {
+    useEffect(()=>{
+
+    },[])
     const [currentPage, setCurrentPage] = useState(0);
     const [scrollYPosition, setScrollYPosition] = useState(0);
     const handleWheel = (event:WheelEvent) =>{
