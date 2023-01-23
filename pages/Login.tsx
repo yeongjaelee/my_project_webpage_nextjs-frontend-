@@ -115,7 +115,7 @@ const Login = () => {
                 <button className="outline outline-1 p-1">login</button>
             </form>
             <button className="outline outline-1" onClick={()=>router.push('/user_register')}>make a account</button>
-            <button className="outline outline-1" onClick={()=>localStorage.removeItem('token')}>log out</button>
+            <button className="outline outline-1" onClick={()=>localStorage.clear()}>log out</button>
         </div>
     )
 };
