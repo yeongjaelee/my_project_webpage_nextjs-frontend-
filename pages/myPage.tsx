@@ -12,6 +12,13 @@ const GET_USER = gql`
       }
     }
 `;
+const DELETE_ACCOUNT = gql`
+mutation DeleteUser($identification: String!) {
+    deleteUser(identification: $identification) {
+        success
+    }
+}
+`;
 
 const myPage = () => {
     const router = useRouter()
@@ -42,6 +49,13 @@ const myPage = () => {
         localStorage.clear()
         router.push('/Login')
     }
+    const delete_account = async () => {
+        const {data} = await client.mutate({mutation: DELETE_ACCOUNT, variables: {identification}})
+        if (data){
+            localStorage.clear()
+            router.push('/Login')
+        }
+    }
     return (
         <div className="flex flex-col items-center h-screen content-center">
             <div className="text-center m-16">
@@ -53,6 +67,7 @@ const myPage = () => {
                 <div className="p-2 text-3xl text-blue-900">{username}</div>
             </div>
             <button className="outline outline-1 m-10" onClick={log_out}>log out</button>
+            <button className="outline outline-1" onClick={delete_account}>delete account</button>
         </div>
     )
 };
