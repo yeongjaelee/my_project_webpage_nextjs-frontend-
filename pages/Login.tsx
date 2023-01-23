@@ -38,8 +38,11 @@ const Login = () => {
                  identification
              }
          })
+        console.log(identification)
+        console.log(password)
         // @ts-ignore
         const {data:token_data} = await client.mutate({mutation: GET_TOKEN, variables: {identification, password}});
+        console.log(token_data)
          if (!identification) {
              return alert("put the id.");
          }
@@ -50,7 +53,7 @@ const Login = () => {
         if(data.user.identification==""){
             return alert("try again")
         }
-        else if(data.user.identification=="yeong"){
+        else if(data.user.identification=="hello"){
             console.log('here is remove token')
             localStorage.removeItem('token')
         }
@@ -105,13 +108,14 @@ const Login = () => {
                     password
                 </div>
                 <div>
-                    <input className="outline outline-1 w-60"
+                    <input className="outline outline-1 w-60 "
                            onChange={e => setPassword(e.target.value)}
                            value={password}/>
                 </div>
                 <button className="outline outline-1 p-1">login</button>
-                <button className="outline outline-1 mt-1 p-1">make a account</button>
             </form>
+            <button className="outline outline-1" onClick={()=>router.push('/user_register')}>make a account</button>
+            <button className="outline outline-1" onClick={()=>localStorage.removeItem('token')}>log out</button>
         </div>
     )
 };
