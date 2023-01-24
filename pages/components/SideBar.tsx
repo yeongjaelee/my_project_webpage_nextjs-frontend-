@@ -21,6 +21,10 @@ export default function SideBar({children}: {children: any}) {
         {
             href: '/myPage',
             title: 'MyPage'
+        },
+        {
+            href: '/Board',
+            title: 'Board'
         }
     ];
     return (
