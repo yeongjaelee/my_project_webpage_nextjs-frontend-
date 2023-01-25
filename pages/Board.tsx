@@ -12,7 +12,7 @@ const GET_BOARD = gql`
     }
 `;
 const Board = () => {
-    const [boards, setBoards] = useState([])
+    const [boards, setBoards] = useState<any[]>([])
     const my_function = async ()=>{
         const {data} = await client.query({
             query: GET_BOARD
