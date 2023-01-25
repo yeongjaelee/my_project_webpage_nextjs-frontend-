@@ -38,11 +38,8 @@ const Login = () => {
                  identification
              }
          })
-        console.log(identification)
-        console.log(password)
         // @ts-ignore
         const {data:token_data} = await client.mutate({mutation: GET_TOKEN, variables: {identification, password}});
-        console.log(token_data)
          if (!identification) {
              return alert("put the id.");
          }
