@@ -5,11 +5,17 @@ import {List} from "@material-ui/icons";
 
 const GET_BOARD = gql`
     query Board{
-      board{
+  board{
+    edges {
+      node {
+        id
         title
-        content
+        totalCount
       }
     }
+  }
+}
+
 `;
 const Board = () => {
     const [boards, setBoards] = useState<any[]>([])
@@ -17,7 +23,7 @@ const Board = () => {
         const {data} = await client.query({
             query: GET_BOARD
         })
-        const boards = data.board.slice(0,4)
+        const boards = data.board.edges.map((e:any)=>e.node)
         setBoards(boards)
     }
     // @ts-ignore
