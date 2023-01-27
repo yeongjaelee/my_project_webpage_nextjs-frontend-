@@ -2,6 +2,7 @@ import React, {FormEventHandler, useEffect, useState} from 'react';
 import {gql} from "@apollo/client";
 import client from "../apollo-client";
 import {List} from "@material-ui/icons";
+import {router} from "next/client";
 
 const GET_BOARD = gql`
     query Board{
@@ -11,6 +12,7 @@ const GET_BOARD = gql`
         id
         title
         totalCount
+        content
       }
     }
   }
@@ -35,11 +37,17 @@ const Board = () => {
     // @ts-ignore
     return (
         <>
-            post page
+            <div className="m-5"></div>
             {boards.map((board)=>
-            <div>
+            <div className="flex justify-center items-center p-1 my-2">
+                <div className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3">
                 {board.title}
+                </div>
             </div>)}
+            <div className="flex justify-center" >
+            <button className="flex flex-col items-center justify-center border-solid border-2 border-black"
+                    onClick={(e)=>{e.preventDefault(); router.push('/board/BoardCreate')}}>create</button>
+            </div>
         </>
     )
 };

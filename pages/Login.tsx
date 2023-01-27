@@ -66,26 +66,6 @@ const Login = () => {
                     identification: data.user.identification
                     }});
         }
-
-
-        // try {
-        //     if (!identification) {
-        //         return alert("ID를 입력하세요.");
-        //     }
-        //     else if (!password) {
-        //         return alert("Password를 입력하세요.");
-        //     }
-        //     const {loading, error, data} = await client.query({
-        //         query: GET_USER, variables: {
-        //             identification
-        //         }
-        //     })
-        //     alert('welcome');
-        //     router.push({pathname:'/', query:{data:data.user.identification}})
-        //     }
-        // catch {
-        //         alert('set the id, password again')
-        //       }
     };
 
 
