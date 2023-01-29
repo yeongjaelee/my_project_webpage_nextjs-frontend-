@@ -22,7 +22,7 @@ const BoardCreate = () => {
         setTitle('')
         setContent('')
         router.reload()
-        await router.push('/Board')
+        await router.push('/')
     };
     return (
         <div>
