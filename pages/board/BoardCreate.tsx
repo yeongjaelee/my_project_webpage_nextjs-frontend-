@@ -5,8 +5,8 @@ import {gql} from "@apollo/client";
 import {useRouter} from "next/dist/client/router";
 
 const CREATE_BOARD = gql`
-mutation BoardCreate($title: String!, $content: String!, $identification:String!) {
-    boardCreate(title: $title, content: $content, identification:$identification) {
+mutation BoardCreate($title: String!, $content: String!, $identification:String!, $isHided:Boolean!) {
+    boardCreate(title: $title, content: $content, identification:$identification, isHided:$isHided) {
         success
     }
 }
@@ -15,15 +15,19 @@ const BoardCreate = () => {
     const router = useRouter();
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const [isHided, setIsHided] = useState<boolean>(false)
     const board_create_handle: FormEventHandler = async (e) => {
         e.preventDefault()
         const identification = localStorage.getItem('identification')
-        await client.mutate({mutation:CREATE_BOARD, variables:{identification, title, content}})
+        await client.mutate({mutation:CREATE_BOARD, variables:{identification, title, content, isHided}})
         setTitle('')
         setContent('')
         router.reload()
         await router.push('/')
     };
+    const hideController = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsHided(e.target.checked)
+    }
     return (
         <div>
             <form className="h-96 flex flex-col items-center justify-center " onSubmit={board_create_handle}>
@@ -42,6 +46,9 @@ const BoardCreate = () => {
                     <textarea className="outline outline-1 w-96"
                            onChange={e => setContent(e.target.value)}
                            value={content}/>
+                </div>
+                <div>
+                    <label>hide</label><input type="checkbox" checked={isHided} onChange={(e)=>hideController(e)}/>
                 </div>
                 <button className="outline outline-1 m-5">create</button>
             </form>

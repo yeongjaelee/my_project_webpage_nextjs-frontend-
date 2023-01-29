@@ -21,6 +21,7 @@ const BoardDetail = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const myFunction = async ()=>{
+        console.log(boardId)
         const {data} = await client.query({
             query: GET_BOARD_DETAIL, variables: {
                 boardId

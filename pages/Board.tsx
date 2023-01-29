@@ -15,6 +15,7 @@ const GET_BOARD = gql`
         title
         totalCount
         content
+        isHided
       }
     }
   }
@@ -35,7 +36,17 @@ const Board = () => {
     useEffect(() => {
         my_function()
     })
-
+    const check_user = (element: boolean, boardId: any) => () => {
+        console.log(element)
+        if (element){
+            alert("it's hided")
+            router.push('/Board')
+        }
+        else{
+            console.log(boardId)
+            router.push({pathname: 'board/BoardDetail', query:{id:boardId}})
+        }
+    }
 
     // @ts-ignore
     return (
@@ -44,11 +55,10 @@ const Board = () => {
             {boards.map((board)=>
             <div className="flex justify-center items-center p-1 my-2">
                 <div className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3" >
-                    <Link href={{
-                        pathname:"board/BoardDetail",
-                        query:{id: board.boardId}}}>
-                        {board.title}</Link>
+                    <a onClick={check_user(board.isHided, board.boardId)}>
+                        {board.title}</a>
                 </div>
+
             </div>)}
             <div className="flex justify-center" >
             <button className="flex flex-col items-center justify-center border-solid border-2 border-black"

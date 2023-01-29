@@ -2,13 +2,14 @@ import React, {FormEventHandler, useEffect, useLayoutEffect, useState} from 'rea
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 import {useRouter} from "next/router";
 import client from "../../apollo-client";
+import Link from "next/link";
 
 const GET_MY_BOARD = gql`
     query myBoard($identification:String!){
   myBoard(identification:$identification){
     edges {
       node {
-        id
+        boardId
         title
         totalCount
         content
@@ -18,6 +19,7 @@ const GET_MY_BOARD = gql`
 }
 
 `;
+
 
 const MyBoard = () => {
     const router = useRouter()
@@ -43,7 +45,10 @@ const MyBoard = () => {
             {boards.map((board)=>
                 <div className="flex justify-center items-center p-1 my-2">
                     <div className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3">
-                        {board.title}
+                        <Link href={{
+                            pathname:"../board/BoardDetail",
+                            query:{id: board.boardId}}}>
+                            {board.title}</Link>
                     </div>
                 </div>)}
         </>
