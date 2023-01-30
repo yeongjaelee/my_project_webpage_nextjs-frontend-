@@ -42,7 +42,6 @@ const WRITE_QUESTION = gql`
 
 
 const TenthPage = () => {
-
     const [currentPage, setCurrentPage] = useState(1)
     const [pages, setPages] = useState([1])
     const [email, setEmail] = useState<string>('')
@@ -117,6 +116,7 @@ const TenthPage = () => {
     }, [currentPage])
 
     useEffect(()=>{
+        console.log(pages)
         let pageEls = pages.map((p)=><div key={p}
                                           onClick={()=>{
                                               setCurrentPage(p)
@@ -141,7 +141,6 @@ const TenthPage = () => {
 
         }
 
-        console.log(currentPage)
         if(currentPage < maxPage){
             pageEls.push(
                 <div
@@ -157,6 +156,7 @@ const TenthPage = () => {
                 {pageEls}
             </div>
         )
+        console.log(pages)
     }, [pages])
 
     // @ts-ignore

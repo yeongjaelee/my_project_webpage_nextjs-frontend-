@@ -4434,7 +4434,7 @@ react-js-pagination@^3.0.2:
 
 react-paginate@^8.1.4:
   version "8.1.4"
-  resolved "https://registry.npmjs.org/react-paginate/-/react-paginate-8.1.4.tgz"
+  resolved "https://registry.yarnpkg.com/react-paginate/-/react-paginate-8.1.4.tgz#f62bfef4f07bb420f3a994e0284d1065a865a6b9"
   integrity sha512-c3rxjcTEqeDQa6LqXifxLeFguY2qy2CHGRphVjHLFFMGfIHyaJ+v3bOvIlLYEeohwQ1q+cQpknjsqBVrkc/SNA==
   dependencies:
     prop-types "^15"
