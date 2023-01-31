@@ -49,7 +49,7 @@ const Board = () => {
     // @ts-ignore
     useEffect(() => {
         my_function()
-    },[])
+    },[pages])
 
     useEffect(()=>{
         let pageEls = pages.map((p)=><div key={p}
