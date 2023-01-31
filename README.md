@@ -1,4 +1,8 @@
-developing my personal website to learn web development frontend side and backend side and each part is for practicing coding skills and algorithm
+developing my personal website to learn web development, frontend side and backend side 
+
+each part is for practicing coding skills and algorithm
+
+
 frontend 
 -------------------------
 framework : react.js, django
