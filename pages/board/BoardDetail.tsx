@@ -32,13 +32,11 @@ mutation BoardDelete($boardId: Int!) {
 const BoardDetail = () => {
     //modal
     const [openAlert, setOpenAlert] = useState(false)
-    const [checkDelete, setCheckDelete] = useState(false)
     const router = useRouter()
     const boardId = router.query.id
+    const myIdentification = localStorage.getItem('identification')
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const myIdentification = localStorage.getItem('identification')
-    const [boardIdentification, setBoardIdentification] = useState('')
     const [checkId, setCheckId] = useState(true)
     const deleteBoard = async () =>{
         await client.mutate({mutation:DELETE_BOARD, variables:{boardId}})
@@ -54,21 +52,16 @@ const BoardDetail = () => {
                 boardId
             }
         })
-        setBoardIdentification(data.boardDetail.user.identification)
-        console.log(data.boardDetail.user.identification)
-        console.log(1)
-        console.log(myIdentification)
         if(data.boardDetail.user.identification != myIdentification){
             setCheckId(false)
         }
         setTitle(data.boardDetail.title)
         setContent(data.boardDetail.content)
-        console.log(checkId)
     }
     //@ts-ignore
     useEffect(() => {
         myFunction()
-    }, [])
+    }, )
     return (
         <>
             <div className="flex justify-center items-center p-1 my-2">
@@ -81,8 +74,6 @@ const BoardDetail = () => {
                     {content}
                 </div>
             </div>
-
-
             {checkId?
                 <>
                     <div className="flex justify-center items-center p-1 my-2">
@@ -101,7 +92,6 @@ const BoardDetail = () => {
                     </Dialog></>
                 :''
             }
-
         </>
     )
 };

@@ -30,6 +30,7 @@ const Login = () => {
     const router = useRouter()
     const [identification, setIdentification] = useState('')
     const [password, setPassword] = useState('')
+    const token = localStorage.getItem('token')
     //const [cookies, setCookie] = useCookies(['token']);
     const userhandle: FormEventHandler = async (e) => {
         e.preventDefault()
@@ -67,32 +68,38 @@ const Login = () => {
                     }});
         }
     };
-
-
     // @ts-ignore
     return (
-        <div className="flex flex-col items-center justify-center ">
-            <form className="h-60 flex flex-col items-center justify-center" onSubmit={userhandle}>
-                <div className="text-2xl">
-                    identification
+        <>
+            {token?
+                <div className="flex flex-col items-center justify-center text-4xl h-screen">
+                    you are already in log in
                 </div>
-                <div>
-                    <input className="outline outline-1 w-60"
-                           onChange={e => setIdentification(e.target.value)}
-                           value={identification}/>
+                : <div className="flex flex-col items-center justify-center ">
+                    <form className="h-60 flex flex-col items-center justify-center" onSubmit={userhandle}>
+                        <div className="text-2xl">
+                            identification
+                        </div>
+                        <div>
+                            <input className="outline outline-1 w-60"
+                                   onChange={e => setIdentification(e.target.value)}
+                                   value={identification}/>
+                        </div>
+                        <div className="text-2xl">
+                            password
+                        </div>
+                        <div>
+                            <input className="outline outline-1 w-60 "
+                                   onChange={e => setPassword(e.target.value)}
+                                   value={password}/>
+                        </div>
+                        <button className="outline outline-1 p-1">login</button>
+                    </form>
+                    <button className="outline outline-1" onClick={()=>router.push('/user_register')}>make a account</button>
                 </div>
-                <div className="text-2xl">
-                    password
-                </div>
-                <div>
-                    <input className="outline outline-1 w-60 "
-                           onChange={e => setPassword(e.target.value)}
-                           value={password}/>
-                </div>
-                <button className="outline outline-1 p-1">login</button>
-            </form>
-            <button className="outline outline-1" onClick={()=>router.push('/user_register')}>make a account</button>
-        </div>
+            }
+
+        </>
     )
 };
 
