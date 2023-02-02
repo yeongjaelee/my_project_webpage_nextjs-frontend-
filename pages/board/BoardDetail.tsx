@@ -81,21 +81,24 @@ const BoardDetail = () => {
                     {content}
                 </div>
             </div>
-            <div className="flex justify-center items-center p-1 my-2">
-            <button onClick={()=>setOpenAlert(!openAlert)}> delete board </button>
-            </div>
+
+
             {checkId?
-                <Dialog open={openAlert} fullWidth={true} className="border-solid border-b-black">
-                    <div className="flex flex-col items-center">
-                        Do you really want to delete your board?
+                <>
+                    <div className="flex justify-center items-center p-1 my-2">
+                        <button onClick={() => setOpenAlert(!openAlert)}> delete board</button>
                     </div>
-                    <button onClick={notDeleteBoard}>
-                        no
-                    </button>
-                    <button onClick={deleteBoard}>
-                        yes
-                    </button>
-                </Dialog>
+                    <Dialog open={openAlert} fullWidth={true} className="border-solid border-b-black">
+                        <div className="flex flex-col items-center">
+                            Do you really want to delete your board?
+                        </div>
+                        <button onClick={notDeleteBoard}>
+                            no
+                        </button>
+                        <button onClick={deleteBoard}>
+                            yes
+                        </button>
+                    </Dialog></>
                 :''
             }
 
