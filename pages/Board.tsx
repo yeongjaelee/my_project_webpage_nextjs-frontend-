@@ -91,9 +91,9 @@ const Board = () => {
     }, [pages])
 
 
-    const check_user = (element: boolean, boardId: any) => () => {
-        console.log(element)
-        if (element){
+    const check_user = (isHided: boolean, boardId: any) => () => {
+        console.log(isHided)
+        if (isHided){
             alert("it's hided")
             router.push('/Board')
         }

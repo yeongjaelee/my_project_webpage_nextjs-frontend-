@@ -14,36 +14,56 @@ const GET_BOARD_DETAIL = gql`
       boardDetail(boardId:$boardId) {
         title
         content
+        isHided
+        user{
+          identification
+        }
       }
     }
 `;
-
+const DELETE_BOARD = gql`
+mutation BoardDelete($boardId: Int!) {
+    boardDelete(boardId: $boardId) {
+        success
+    }
+}
+`;
 // @ts-ignore
 const BoardDetail = () => {
     //modal
     const [openAlert, setOpenAlert] = useState(false)
-    const onModalAlert = () => {
-        console.log(2)
-
-    }
+    const [checkDelete, setCheckDelete] = useState(false)
     const router = useRouter()
     const boardId = router.query.id
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-
-    function deleteBoard() {
-        setOpenAlert(!openAlert);
+    const myIdentification = localStorage.getItem('identification')
+    const [boardIdentification, setBoardIdentification] = useState('')
+    const [checkId, setCheckId] = useState(true)
+    const deleteBoard = async () =>{
+        await client.mutate({mutation:DELETE_BOARD, variables:{boardId}})
+        setOpenAlert(false)
+        router.push('/Board').then(()=> router.reload())
+    }
+    const notDeleteBoard = () =>{
+        setOpenAlert(false)
     }
     const myFunction = async ()=>{
-        console.log(boardId)
         const {data} = await client.query({
             query: GET_BOARD_DETAIL, variables: {
                 boardId
             }
         })
-        console.log(data)
+        setBoardIdentification(data.boardDetail.user.identification)
+        console.log(data.boardDetail.user.identification)
+        console.log(1)
+        console.log(myIdentification)
+        if(data.boardDetail.user.identification != myIdentification){
+            setCheckId(false)
+        }
         setTitle(data.boardDetail.title)
         setContent(data.boardDetail.content)
+        console.log(checkId)
     }
     //@ts-ignore
     useEffect(() => {
@@ -64,13 +84,21 @@ const BoardDetail = () => {
             <div className="flex justify-center items-center p-1 my-2">
             <button onClick={()=>setOpenAlert(!openAlert)}> delete board </button>
             </div>
-            {openAlert ?
-            <Dialog open={openAlert}>
-                <button onClick={deleteBoard}>
-                    yes
-                </button>
-            </Dialog>
-                :null}
+            {checkId?
+                <Dialog open={openAlert} fullWidth={true} className="border-solid border-b-black">
+                    <div className="flex flex-col items-center">
+                        Do you really want to delete your board?
+                    </div>
+                    <button onClick={notDeleteBoard}>
+                        no
+                    </button>
+                    <button onClick={deleteBoard}>
+                        yes
+                    </button>
+                </Dialog>
+                :''
+            }
+
         </>
     )
 };

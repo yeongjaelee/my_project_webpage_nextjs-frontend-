@@ -22,8 +22,7 @@ const BoardCreate = () => {
         await client.mutate({mutation:CREATE_BOARD, variables:{identification, title, content, isHided}})
         setTitle('')
         setContent('')
-        router.reload()
-        await router.push('/')
+        await router.push('/Board').then(()=>router.reload())
     };
     const hideController = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsHided(e.target.checked)
