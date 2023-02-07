@@ -27,15 +27,19 @@ const myPage = () => {
     const myFunction = async () =>{
         const identification = localStorage.getItem('identification')
         try {
+            console.log('intro')
+            console.log(identification)
             const {data} = await client.query({
                 query: GET_USER, variables: {
                     identification
                 }
             })
+            console.log('outro')
             setIdentification(data.user.identification)
             setUsername(data.user.username)
         }
         catch{
+            console.log('out')
             alert('log in first !!')
             router.push('/Login')
         }

@@ -38,7 +38,7 @@ const MyBoard = () => {
                 offset: (currentPage-1) * 5, identification
             }
         })
-        totalCount = data.myBoard.edges[0].node.totalCount
+        totalCount = data.myBoard.edges[0].node.totalCount>0 ? data.myBoard.edges[0].node.totalCount:0
         let _maxPage = Math.ceil( totalCount/COUNT_PER_PAGE)
         let _pages = []
         for(let i = 0; i < _maxPage; i++){

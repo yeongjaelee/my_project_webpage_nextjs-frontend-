@@ -17,13 +17,24 @@ const GET_BOARD = gql`
     }
   }
 }
-
+`;
+const GET_USER = gql`
+    query User($identification:String!){
+      user(identification:$identification) {
+        id
+        identification
+        username
+        isAdmin
+      }
+    }
 `;
 const Board = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [pages, setPages] = useState([1])
     const [paginations, setPaginations] = useState(<div></div>)
     const [maxPage, setMaxPage] = useState(1)
+    const identification = localStorage.getItem('identification')
+    const [isAdmin, setIsAdmin] = useState(false)
     const COUNT_PER_PAGE = 5
     let totalCount = 0
 
@@ -35,6 +46,14 @@ const Board = () => {
                 offset: (currentPage-1) * 5,
             }
         })
+        // @ts-ignore
+        const {data:user_data} = await client.query({query:GET_USER, variables:{
+            'identification': identification
+            }})
+        //setIsAdmin(user_data)
+        console.log(user_data.user.isAdmin)
+        setIsAdmin(user_data.user.isAdmin)
+        console.log(isAdmin)
         totalCount = data.board.edges[0].node.totalCount
         let _maxPage = Math.ceil( totalCount/COUNT_PER_PAGE)
         let _pages = []
@@ -92,8 +111,7 @@ const Board = () => {
 
 
     const check_user = (isHided: boolean, boardId: any) => () => {
-        console.log(isHided)
-        if (isHided){
+        if (isHided && !isAdmin){
             alert("it's hided")
             router.push('/Board')
         }
@@ -108,7 +126,7 @@ const Board = () => {
         <>
             <div className="m-5"></div>
             {boards.map((board)=>
-            <div className="flex justify-center items-center p-1 my-2">
+            <div className="flex justify-center items-center p-1 my-2" key={board.id}>
                 <div className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3" >
                     <a onClick={check_user(board.isHided, board.boardId)}>
                         {board.title}</a>
