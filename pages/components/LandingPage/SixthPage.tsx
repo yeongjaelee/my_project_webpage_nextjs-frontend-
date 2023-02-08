@@ -1,9 +1,9 @@
 import React from 'react';
 import Image from "next/image";
-import chatting_1 from "../../../public/images/chatting_1.png";
-import chatting_2 from "../../../public/images/chatting_2.png";
-import chatting_3 from "../../../public/images/chatting_3.png";
-import chatting_4 from "../../../public/images/chatting_4.png";
+import chatting_1 from "../../../publics/images/chatting_1.png";
+import chatting_2 from "../../../publics/images/chatting_2.png";
+import chatting_3 from "../../../publics/images/chatting_3.png";
+import chatting_4 from "../../../publics/images/chatting_4.png";
 
 
 const sixthPage = () => {

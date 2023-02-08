@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from "next/image";
-import chatting_3 from "../../../public/images/chatting_3.png";
-import chatting_4 from "../../../public/images/chatting_4.png";
+import chatting_3 from "../../../publics/images/chatting_3.png";
+import chatting_4 from "../../../publics/images/chatting_4.png";
 
 
 const SeventhPage = () => {

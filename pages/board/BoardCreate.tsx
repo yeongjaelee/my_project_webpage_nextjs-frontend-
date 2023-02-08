@@ -30,7 +30,7 @@ const BoardCreate = () => {
             console.log(2)
         }
         if (file){
-            await client.mutate({mutation:CREATE_BOARD, variables:{identification, title, content, isHided, 'file':file}})
+            await client.mutate({mutation:CREATE_BOARD, variables:{identification, title, content, isHided, file}})
         }
         setTitle('')
         setContent('')

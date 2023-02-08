@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import trippy_app from "../../../public/images/trippy_app.png";
+import trippy_app from "../../../publics/images/trippy_app.png";
 const FourthPage = () => {
     return (
         <div id="forth">
