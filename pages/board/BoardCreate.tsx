@@ -20,23 +20,11 @@ const BoardCreate = () => {
     const identification = localStorage.getItem('identification')
     const board_create_handle: FormEventHandler = async (e) => {
         e.preventDefault()
-        //const formData = new FormData()
-        // @ts-ignore
-        //formData.append('file', file)
-        if(file==null){
-            console.log(1)
-        }
-        else{
-            console.log(2)
-        }
-        if (file){
-            await client.mutate({mutation:CREATE_BOARD, variables:{identification, title, content, isHided, file}})
-        }
+        await client.mutate({mutation:CREATE_BOARD, variables:{identification, title, content, isHided, file}})
         setTitle('')
         setContent('')
         setFile(null)
-
-        //await router.push('/Board').then(()=>router.reload())
+        await router.push('/Board').then(()=>router.reload())
     };
     const hideController = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsHided(e.target.checked)
@@ -75,6 +63,5 @@ const BoardCreate = () => {
             </form>
         </div>
     )
-
 };
 export default BoardCreate;

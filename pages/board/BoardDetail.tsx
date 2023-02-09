@@ -28,13 +28,20 @@ mutation BoardDelete($boardId: Int!) {
     }
 }
 `;
+const UPDATE_BOARD = gql`
+mutation BoardUpdate($boardId: Int!, $title: String!, $content: String!){
+    boardUpdate(boardId: $boardId, title: $title, content: $content){
+        success
+    }
+}
+`;
 // @ts-ignore
 const BoardDetail = () => {
     //modal
     const [openAlert, setOpenAlert] = useState(false)
     const router = useRouter()
     const boardId = router.query.id
-    const myIdentification = localStorage.getItem('identification')
+
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [checkId, setCheckId] = useState(true)
@@ -47,6 +54,7 @@ const BoardDetail = () => {
         setOpenAlert(false)
     }
     const myFunction = async ()=>{
+        const myIdentification = localStorage.getItem('identification')
         const {data} = await client.query({
             query: GET_BOARD_DETAIL, variables: {
                 boardId
@@ -58,24 +66,35 @@ const BoardDetail = () => {
         setTitle(data.boardDetail.title)
         setContent(data.boardDetail.content)
     }
+    const boardUpdate = async () => {
+        await client.mutate({mutation:UPDATE_BOARD, variables:{boardId, title, content}})
+        router.push('/board/MyBoard').then(() => router.reload())
+    }
     //@ts-ignore
     useEffect(() => {
         myFunction()
-    }, )
+
+    }, [])
     return (
-        <>
+        <div>
             <div className="flex justify-center items-center p-1 my-2">
-                <div className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3">
-                    {title}
-                </div>
+                <input className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3 text-center"
+                       onChange={(e)=>setTitle(e.target.value)}
+                       type="text"
+                       value={title}
+                />
             </div>
             <div className="flex justify-center items-center p-1 my-2">
-                <div className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3">
-                    {content}
-                </div>
+                <input className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3 text-center"
+                       type="text"
+                       value={content}
+                       onChange={(e)=>setContent(e.target.value)} />
             </div>
             {checkId?
                 <>
+                    <div className="flex justify-center items-center p-1 my-2">
+                        <button onClick={boardUpdate}> update</button>
+                    </div>
                     <div className="flex justify-center items-center p-1 my-2">
                         <button onClick={() => setOpenAlert(!openAlert)}> delete board</button>
                     </div>
@@ -92,7 +111,7 @@ const BoardDetail = () => {
                     </Dialog></>
                 :''
             }
-        </>
+        </div>
     )
 };
 

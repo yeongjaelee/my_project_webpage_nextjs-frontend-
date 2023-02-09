@@ -8,6 +8,7 @@ const GET_USER = gql`
       user(identification:$identification) {
         id
         identification
+        password
         username
       }
     }
@@ -19,27 +20,34 @@ mutation DeleteUser($identification: String!) {
     }
 }
 `;
+const UPDATE_USER_INFO = gql`
+mutation UpdateUserInfo($userId: Int!, $identification: String!, $username: String!){
+    updateUserInfo(userId: $userId, identification:$identification, username:$username){
+    success
+    }
+}
+`;
 
 const myPage = () => {
     const router = useRouter()
     const [identification, setIdentification] = useState('')
     const [username, setUsername] = useState('')
+    const [userId, setUserId] = useState(0)
+    const [password, setPassword] = useState('')
     const myFunction = async () =>{
         const identification = localStorage.getItem('identification')
         try {
-            console.log('intro')
-            console.log(identification)
             const {data} = await client.query({
                 query: GET_USER, variables: {
                     identification
                 }
             })
-            console.log('outro')
             setIdentification(data.user.identification)
             setUsername(data.user.username)
+            setPassword(data.user.password)
+            setUserId(data.user.id)
         }
         catch{
-            console.log('out')
             alert('log in first !!')
             router.push('/Login')
         }
@@ -60,20 +68,26 @@ const myPage = () => {
             router.push('/Login')
         }
     }
+    const updateInfo = async () => {
+        await client.mutate({mutation: UPDATE_USER_INFO, variables: {userId, identification, username}})
+        localStorage.removeItem('token')
+        localStorage.removeItem('identification')
+        router.push('/Login')
+    }
     return (
         <div className="flex flex-col items-center h-screen content-center">
             <div className="text-center m-16">
                 <div className="p-3 text-2xl">identification</div>
-                <div className="p-2 text-3xl text-blue-900">{identification}</div>
+                <input className="p-2 text-3xl text-blue-900 text-center" type="text" value={identification} onChange={(e)=>setIdentification(e.target.value)} />
             </div>
             <div className="text-center">
                 <div className="p-3 text-2xl">username</div>
-                <div className="p-2 text-3xl text-blue-900">{username}</div>
+                <input className="p-2 text-3xl text-blue-900 text-center" type="text" value={username} onChange={(e)=>setUsername(e.target.value)} />
             </div>
             <button className="outline outline-1 m-10" onClick={log_out}>log out</button>
+            <button className="outline outline-1" onClick={updateInfo}>update</button>
             <button className="outline outline-1" onClick={delete_account}>delete account</button>
         </div>
     )
 };
-
 export default myPage;
