@@ -1,7 +1,8 @@
-import React, {FormEventHandler, useEffect, useState} from 'react';
+import React, {FormEventHandler, useEffect, useState, MouseEvent} from 'react';
 import {gql} from "@apollo/client";
 import client from "../apollo-client";
 import {useRouter} from "next/router";
+import internal from "stream";
 
 const GET_BOARD = gql`
     query Board(\$offset: Int = 1){
@@ -28,6 +29,14 @@ const GET_USER = gql`
       }
     }
 `;
+const DELETE_BOARDS = gql`
+    mutation DeleteBoards($boardIds:[Int!]){
+        deleteBoards(boardIds:$boardIds){
+            success
+        }
+    }
+`;
+
 const Board = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [pages, setPages] = useState([1])
@@ -35,8 +44,11 @@ const Board = () => {
     const [maxPage, setMaxPage] = useState(1)
     const identification = localStorage.getItem('identification')
     const [isAdmin, setIsAdmin] = useState(false)
+    const [totalCount, setTotalCount] = useState(1)
+    const [checkedList, setCheckedList] = useState<Array<number>>([]);
+    const [isChecked, setIsChecked] = useState(false)
     const COUNT_PER_PAGE = 5
-    let totalCount = 0
+
 
     const router = useRouter()
     const [boards, setBoards] = useState<any[]>([])
@@ -51,10 +63,8 @@ const Board = () => {
             'identification': identification
             }})
         //setIsAdmin(user_data)
-        console.log(user_data.user.isAdmin)
         setIsAdmin(user_data.user.isAdmin)
-        console.log(isAdmin)
-        totalCount = data.board.edges[0].node.totalCount
+        setTotalCount(data.board.edges[0].node.totalCount)
         let _maxPage = Math.ceil( totalCount/COUNT_PER_PAGE)
         let _pages = []
         for(let i = 0; i < _maxPage; i++){
@@ -116,19 +126,37 @@ const Board = () => {
             router.push('/Board')
         }
         else{
-            console.log(boardId)
             router.push({pathname: 'board/BoardDetail', query:{id:boardId}})
         }
+    }
+    function check_delete(checked: boolean, item: number) {
+        if (checked) {
+            setCheckedList([...checkedList,item])
+        } else if (!checked) {
+            setCheckedList(checkedList.filter((x)=>x !== item))
+        }
+    }
+    const boards_delete = async () => {
+        console.log(checkedList)
+        await client.mutate({mutation: DELETE_BOARDS, variables: {boardIds:checkedList}})
+        window.location.reload()
     }
 
     // @ts-ignore
     return (
         <>
             <div className="m-5"></div>
-            {boards.map((board)=>
-            <div className="flex justify-center items-center p-1 my-2" key={board.id}>
+            <div className="px-2">
+                <input type="checkbox"/>
+            </div>
+            {boards.map((board, index)=>
+            <div className="flex justify-center items-center p-1 my-2" key={board.boardId}>
+                <div className="px-2">
+                <input type="checkbox" id={board.id} checked={checkedList.includes(board.boardId)}
+                       onChange={(e)=>check_delete(e.target.checked, board.boardId)}/>
+                </div>
                 <div className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3" >
-                    <a onClick={check_user(board.isHided, board.boardId)}>
+                    <a onClick={check_user(board.isHided, board.id)}>
                         {board.title}</a>
                 </div>
             </div>)}
@@ -140,6 +168,9 @@ const Board = () => {
                     onClick={(e)=>{e.preventDefault(); router.push('/board/BoardCreate')}}>create</button>
             <button className="flex flex-col items-center justify-center border-solid border-2 border-black pl-1"
                     onClick={(e)=>{e.preventDefault(); router.push('/board/MyBoard')}}>my board</button>
+            <button className="flex flex-col items-center justify-center border-solid border-2 border-black pl-1"
+                    onClick={boards_delete}>delete</button>
+
             </div>
         </>
     )
