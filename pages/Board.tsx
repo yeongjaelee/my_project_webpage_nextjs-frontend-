@@ -42,17 +42,15 @@ const Board = () => {
     const [pages, setPages] = useState([1])
     const [paginations, setPaginations] = useState(<div></div>)
     const [maxPage, setMaxPage] = useState(1)
-    const identification = localStorage.getItem('identification')
     const [isAdmin, setIsAdmin] = useState(false)
     const [totalCount, setTotalCount] = useState(1)
     const [checkedList, setCheckedList] = useState<Array<number>>([]);
     const [isChecked, setIsChecked] = useState(false)
     const COUNT_PER_PAGE = 5
-
-
     const router = useRouter()
     const [boards, setBoards] = useState<any[]>([])
     const my_function = async ()=>{
+        const identification = localStorage.getItem('identification')
         const {data} = await client.query({
             query: GET_BOARD, variables: {
                 offset: (currentPage-1) * 5,
@@ -141,13 +139,24 @@ const Board = () => {
         await client.mutate({mutation: DELETE_BOARDS, variables: {boardIds:checkedList}})
         window.location.reload()
     }
+    const current_page_boards_delete = () => {
+        if(isChecked){
+            boards.map(board=>checkedList.push(board.boardId))
+
+        }
+        else{
+            setCheckedList([])
+        }
+        setIsChecked(!isChecked)
+
+    }
 
     // @ts-ignore
     return (
         <>
             <div className="m-5"></div>
-            <div className="px-2">
-                <input type="checkbox"/>
+            <div className="flex justify-center items-center px-2">
+                delete current page boards <input type="checkbox" checked={checkedList.length > 0} onChange={current_page_boards_delete}/>
             </div>
             {boards.map((board, index)=>
             <div className="flex justify-center items-center p-1 my-2" key={board.boardId}>
@@ -170,7 +179,6 @@ const Board = () => {
                     onClick={(e)=>{e.preventDefault(); router.push('/board/MyBoard')}}>my board</button>
             <button className="flex flex-col items-center justify-center border-solid border-2 border-black pl-1"
                     onClick={boards_delete}>delete</button>
-
             </div>
         </>
     )
