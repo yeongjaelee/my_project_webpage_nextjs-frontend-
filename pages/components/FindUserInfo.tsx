@@ -27,16 +27,16 @@ const FindUserInfo = () => {
     const [checkId, setCheckId] = useState(false)
     const [password, setPassword] = useState('')
     const checkIdentification = async () => {
-        console.log(2)
         const {data} = await client.query({
             query: GET_USER, variables: {
                 identification
             }
         })
-        if (data !=null) {
+        if (data.user !=null) {
             setCheckId(true)
         } else {
             alert('no id !')
+            setIdentification('')
         }
 
     }
