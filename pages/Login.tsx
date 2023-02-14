@@ -95,6 +95,7 @@ const Login = () => {
                         </div>
                         <button className="outline outline-1 p-1">login</button>
                     </form>
+                    <button className="outline outline-1" onClick={()=>router.push('/components/FindUserInfo')}>find password</button>
                     <button className="outline outline-1" onClick={()=>router.push('/user_register')}>make a account</button>
                 </div>
             }

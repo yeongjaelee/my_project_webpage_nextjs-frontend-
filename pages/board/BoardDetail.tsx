@@ -15,6 +15,7 @@ const GET_BOARD_DETAIL = gql`
         title
         content
         isHided
+        image
         user{
           identification
         }
@@ -41,10 +42,10 @@ const BoardDetail = () => {
     const [openAlert, setOpenAlert] = useState(false)
     const router = useRouter()
     const boardId = router.query.id
-
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [checkId, setCheckId] = useState(true)
+    const [image, setImage] = useState('')
     const deleteBoard = async () =>{
         await client.mutate({mutation:DELETE_BOARD, variables:{boardId}})
         setOpenAlert(false)
@@ -63,8 +64,11 @@ const BoardDetail = () => {
         if(data.boardDetail.user.identification != myIdentification){
             setCheckId(false)
         }
+        console.log(data.boardDetail.image)
         setTitle(data.boardDetail.title)
         setContent(data.boardDetail.content)
+        setImage(data.boardDetail.image)
+
     }
     const boardUpdate = async () => {
         await client.mutate({mutation:UPDATE_BOARD, variables:{boardId, title, content}})
@@ -89,6 +93,9 @@ const BoardDetail = () => {
                        type="text"
                        value={content}
                        onChange={(e)=>setContent(e.target.value)} />
+            </div>
+            <div className="flex justify-center items-center p-1 my-2">
+                <img src={image} />
             </div>
             {checkId?
                 <>

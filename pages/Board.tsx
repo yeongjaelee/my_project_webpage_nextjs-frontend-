@@ -118,7 +118,7 @@ const Board = () => {
     }, [pages])
 
 
-    const check_user = (isHided: boolean, boardId: any) => () => {
+    const check_user = (isHided: boolean, boardId: number) => () => {
         if (isHided && !isAdmin){
             alert("it's hided")
             router.push('/Board')
@@ -165,7 +165,7 @@ const Board = () => {
                        onChange={(e)=>check_delete(e.target.checked, board.boardId)}/>
                 </div>
                 <div className="flex justify-center items-center border-solid border-2 border-black text-xl w-1/3" >
-                    <a onClick={check_user(board.isHided, board.id)}>
+                    <a onClick={check_user(board.isHided, board.boardId)}>
                         {board.title}</a>
                 </div>
             </div>)}

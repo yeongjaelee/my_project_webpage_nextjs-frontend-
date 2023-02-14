@@ -5,8 +5,8 @@ import {gql} from "@apollo/client";
 import {useRouter} from "next/dist/client/router";
 
 const CREATE_BOARD = gql`
-mutation BoardCreate($file:Upload!, $title: String!, $content: String!, $identification:String!, $isHided:Boolean!) {
-    boardCreate(file:$file, title: $title, content: $content, identification:$identification, isHided:$isHided) {
+mutation BoardCreate($image:Upload!, $title: String!, $content: String!, $identification:String!, $isHided:Boolean!) {
+    boardCreate(image:$image, title: $title, content: $content, identification:$identification, isHided:$isHided) {
         success
     }
 }
@@ -16,14 +16,14 @@ const BoardCreate = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [isHided, setIsHided] = useState<boolean>(false)
-    const [file, setFile] = useState<File | null>(null)
+    const [image, setImage] = useState<File | null>(null)
     const identification = localStorage.getItem('identification')
     const board_create_handle: FormEventHandler = async (e) => {
         e.preventDefault()
-        await client.mutate({mutation:CREATE_BOARD, variables:{identification, title, content, isHided, file}})
+        await client.mutate({mutation:CREATE_BOARD, variables:{identification, title, content, isHided, image}})
         setTitle('')
         setContent('')
-        setFile(null)
+        setImage(null)
         await router.push('/Board').then(()=>router.reload())
     };
     const hideController = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +31,7 @@ const BoardCreate = () => {
     }
     const imageController = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files !=null){
-            setFile(e.target.files[0])
+            setImage(e.target.files[0])
         }
     }
     return (
