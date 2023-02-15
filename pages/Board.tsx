@@ -7,11 +7,11 @@ import internal from "stream";
 const GET_BOARD = gql`
     query Board(\$offset: Int = 1){
   board(offset: \$offset first: 5){
+    totalCount
     edges {
       node {
         boardId
         title
-        totalCount
         content
         isHided
       }
@@ -62,7 +62,7 @@ const Board = () => {
             }})
         //setIsAdmin(user_data)
         setIsAdmin(user_data.user.isAdmin)
-        setTotalCount(data.board.edges[0].node.totalCount)
+        setTotalCount(data.board.totalCount)
         let _maxPage = Math.ceil( totalCount/COUNT_PER_PAGE)
         let _pages = []
         for(let i = 0; i < _maxPage; i++){
