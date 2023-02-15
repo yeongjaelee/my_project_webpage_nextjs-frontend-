@@ -7,11 +7,11 @@ import Link from "next/link";
 const GET_MY_BOARD = gql`
     query myBoard(\$offset: Int = 1, $identification:String!){
   myBoard(offset: \$offset first: 5, identification:$identification){
+    totalCount
     edges {
       node {
         boardId
         title
-        totalCount
         content
       }
     }
@@ -39,7 +39,7 @@ const MyBoard = () => {
             }
         })
         console.log(data.myBoard.edges.length)
-        totalCount = data.myBoard.edges[0].node.totalCount>0 ? data.myBoard.edges[0].node.totalCount:0
+        totalCount = data.myBoard.totalCount
         let _maxPage = Math.ceil( totalCount/COUNT_PER_PAGE)
         let _pages = []
         for(let i = 0; i < _maxPage; i++){
