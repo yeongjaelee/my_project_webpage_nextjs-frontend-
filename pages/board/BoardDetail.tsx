@@ -16,6 +16,7 @@ const GET_BOARD_DETAIL = gql`
         content
         isHided
         image
+        file
         user{
           identification
         }
@@ -45,7 +46,8 @@ const BoardDetail = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [checkId, setCheckId] = useState(true)
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState(null)
+    const [file, setFile] = useState(null)
     const deleteBoard = async () =>{
         await client.mutate({mutation:DELETE_BOARD, variables:{boardId}})
         setOpenAlert(false)
@@ -64,10 +66,12 @@ const BoardDetail = () => {
         if(data.boardDetail.user.identification != myIdentification){
             setCheckId(false)
         }
-        console.log(data.boardDetail.image)
+        console.log(boardId)
+        console.log(data.boardDetail.file)
         setTitle(data.boardDetail.title)
         setContent(data.boardDetail.content)
         setImage(data.boardDetail.image)
+        setFile(data.boardDetail.file)
 
     }
     const boardUpdate = async () => {
@@ -95,8 +99,15 @@ const BoardDetail = () => {
                        onChange={(e)=>setContent(e.target.value)} />
             </div>
             <div className="flex justify-center items-center p-1 my-2">
-                <img src={image} />
+                {image?<div>
+                    <img src={"http://0.0.0.0:8000/media/"+image} alt=""/>
+                </div>:<div></div>}
             </div>
+            {/*<div className="flex justify-center items-center p-1 my-2">*/}
+            {/*    {file?<div>*/}
+            {/*        <img src={"http://0.0.0.0:8000/media/"+file} alt=""/> yesyes*/}
+            {/*    </div>:<div>nono</div>}*/}
+            {/*</div>*/}
             {checkId?
                 <>
                     <div className="flex justify-center items-center p-1 my-2">
