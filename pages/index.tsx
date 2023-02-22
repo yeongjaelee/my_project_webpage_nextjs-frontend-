@@ -1,24 +1,40 @@
 import React, {useEffect, useState} from 'react';
-import type { NextPage } from "next";
 import {Router, useRouter} from "next/router";
-import LandingPage from "./LandingPage";
-import {router} from "next/client";
-import {getCookie} from "./components/token/Cookie";
+import {gql} from "@apollo/client";
+import client from "../apollo-client";
 
-
+const GET_USER = gql`
+    query User($token:String!){
+      user(token:$token) {
+        id
+        identification
+        password
+        username
+      }
+    }
+`;
 const Home = () => {
     const router = useRouter();
     const [message, setMessage] = useState('')
     //const data = router.query
-    useEffect(()=>{
+    const check_user = async () => {
         const token = localStorage.getItem("token");
-        const identification = localStorage.getItem('identification')
-        if (token){
-            setMessage('welcome'+' '+identification)
-        }
-        else{
-            setMessage('')
-        }
+        console.log(token)
+        console.log(1)
+        const {data} = await client.query({query: GET_USER, variables: {'token': token}})
+        // if (data) {
+        //     console.log(1)
+        //     console.log(data.user.identification)
+        //     console.log(3)
+        //     setMessage('welcome' + ' ' + data.user.identification)
+        // } else {
+        //     console.log(2)
+        //     console.log(data.user.identification)
+        //     setMessage('')
+        // }
+    }
+    useEffect(()=>{
+        check_user()
     },[])
 
     return (

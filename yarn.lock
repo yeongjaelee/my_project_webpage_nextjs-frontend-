@@ -4463,6 +4463,11 @@ next@13.1.1:
     "@next/swc-win32-ia32-msvc" "13.1.1"
     "@next/swc-win32-x64-msvc" "13.1.1"
 
+nextjs-redirect@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/nextjs-redirect/-/nextjs-redirect-6.0.1.tgz#29416d11f130511e12dbe93ca0c4fa0778bfbae6"
+  integrity sha512-SScRdqhGwbD9HbATM+6KMoRyW5QdsPtBBknPPUBxeItnv3wOrhII4pW+0TrvglWNxeRUwI2GsnrDHCV/6juBtQ==
+
 no-case@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-3.0.4.tgz#d361fd5c9800f558551a8369fc0dcd4662b6124d"

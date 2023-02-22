@@ -5,8 +5,8 @@ import client from "../../apollo-client";
 import Link from "next/link";
 
 const GET_MY_BOARD = gql`
-    query myBoard(\$offset: Int = 1, $identification:String!){
-  myBoard(offset: \$offset first: 5, identification:$identification){
+    query myBoard(\$offset: Int = 1, $token:String!){
+  myBoard(offset: \$offset first: 5, token:$token){
     totalCount
     edges {
       node {
@@ -32,10 +32,10 @@ const MyBoard = () => {
     const router = useRouter()
     const [boards, setBoards] = useState<any[]>([])
     const myFunction = async ()=>{
-        const identification = localStorage.getItem('identification')
+        const token = localStorage.getItem('token')
         const {data} = await client.query({
             query: GET_MY_BOARD, variables: {
-                offset: (currentPage-1) * 5, identification
+                offset: (currentPage-1) * 5, token
             }
         })
         console.log(data.myBoard.edges.length)
@@ -53,7 +53,6 @@ const MyBoard = () => {
 
     //@ts-ignore
     useEffect(() => {
-
         myFunction()
     }, [pages])
     useEffect(()=>{

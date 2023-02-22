@@ -4,8 +4,8 @@ import client from "../apollo-client";
 import {useRouter} from "next/router";
 
 const GET_USER = gql`
-    query User($identification:String!){
-      user(identification:$identification) {
+    query User($token:String!){
+      user(token:$token) {
         id
         identification
         password
@@ -27,6 +27,13 @@ mutation UpdateUserInfo($userId: Int!, $identification: String!, $username: Stri
     }
 }
 `;
+const DELETE_TOKEN = gql`
+mutation DeleteToken($token:String!){
+    deleteToken(token:$token){
+        success
+    }
+}
+`
 
 const myPage = () => {
     const router = useRouter()
@@ -34,12 +41,14 @@ const myPage = () => {
     const [username, setUsername] = useState('')
     const [userId, setUserId] = useState(0)
     const [password, setPassword] = useState('')
+    const [token, setToken] = useState<string|null>('')
     const myFunction = async () =>{
-        const identification = localStorage.getItem('identification')
+        const user_token = localStorage.getItem('token')
+        setToken(localStorage.getItem('token'))
         try {
             const {data} = await client.query({
                 query: GET_USER, variables: {
-                    identification
+                    'token':user_token
                 }
             })
             setIdentification(data.user.identification)
@@ -57,21 +66,22 @@ const myPage = () => {
     useEffect(() => {
         myFunction()
     }, [])
-    const log_out = () => {
+    const log_out = async () => {
         localStorage.clear()
+        await client.mutate({mutation: DELETE_TOKEN, variables: {'token': token}})
         router.push('/Login')
     }
     const delete_account = async () => {
         const {data} = await client.mutate({mutation: DELETE_ACCOUNT, variables: {identification}})
         if (data){
             localStorage.clear()
+            await client.mutate({mutation:DELETE_TOKEN})
             router.push('/Login')
         }
     }
     const updateInfo = async () => {
         await client.mutate({mutation: UPDATE_USER_INFO, variables: {userId, identification, username}})
         localStorage.removeItem('token')
-        localStorage.removeItem('identification')
         router.push('/Login')
     }
     return (

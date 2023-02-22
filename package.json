@@ -35,6 +35,7 @@
     "material-ui": "^0.20.2",
     "material-ui-flat-pagination": "^4.1.2",
     "next": "13.1.1",
+    "nextjs-redirect": "^6.0.1",
     "react": "18.2.0",
     "react-apollo": "^3.1.5",
     "react-cookie": "^4.1.1",

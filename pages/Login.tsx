@@ -1,15 +1,11 @@
 import React, {FormEventHandler, useEffect, useState} from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
-import client from "../apollo-client";
 import {useRouter} from "next/router";
-import query from "apollo-cache-inmemory/lib/fragmentMatcherIntrospectionQuery";
-import {setCookie} from "./components/token/Cookie";
-import {useCookies} from "react-cookie";
-import {set} from "react-hook-form";
+import client from "../login-apollo-client";
 
 const GET_USER = gql`
-    query User($identification:String!){
-      user(identification:$identification) {
+    query User($token:String!){
+      user(token:$token) {
         id
         identification
         password
@@ -26,48 +22,54 @@ mutation TokenAuth($identification: String!, $password: String!) {
     }
 }
 `;
+const SET_TOKEN = gql`
+mutation SetToken($identification: String!, $token:String!){
+    setToken(identification: $identification, token:$token){
+        success
+    }
+}
+`
 const Login = () => {
     const router = useRouter()
     const [identification, setIdentification] = useState('')
     const [password, setPassword] = useState('')
-    const token = localStorage.getItem('token')
+    const [token, setToken] = useState<string|null>(null)
     //const [cookies, setCookie] = useCookies(['token']);
     const userhandle: FormEventHandler = async (e) => {
         e.preventDefault()
-         const {data} = await client.query({
-             query: GET_USER, variables: {
-                 identification
-             }
-         })
-        // @ts-ignore
+        if (!identification) {
+            return alert("put the id.");
+        }
+        else if (!password) {
+            return alert("put the password.");
+        }
         const {data:token_data} = await client.mutate({mutation: GET_TOKEN, variables: {identification, password}});
-         if (!identification) {
-             return alert("put the id.");
-         }
-         else if (!password) {
-             return alert("put the password.");
-         }
-
-        if(data.user.identification==""){
-            return alert("try again")
-        }
-        else if(data.user.identification=="hello"){
-            console.log('here is remove token')
-            localStorage.removeItem('token')
-        }
-        else{
-            //console.log(token_data.tokenAuth.token)
-            //setCookie('token', token_data.tokenAuth.token)
+        const token = token_data.tokenAuth.token
+        const {data:set_token} = await client.mutate({mutation: SET_TOKEN, variables:{identification, token}})
+        if (set_token.setToken.success){
+            console.log(11111)
+            console.log(token)
+            const {data} = await client.query({
+                query: GET_USER, variables: {
+                    token
+                }
+            })
             alert('welcome');
-            localStorage.setItem('token', token_data.tokenAuth.token)
-            localStorage.setItem('identification', identification)
+
+            localStorage.setItem('token', token)
+            setToken(token)
             await router.push(
                 { pathname:'/',
                     query:{
-                    identification: data.user.identification
+                        identification: data.user.identification
                     }});
         }
     };
+    useEffect(()=>{
+        console.log('login page')
+        setToken(localStorage.getItem('token'))
+    },[token])
+
     // @ts-ignore
     return (
         <>

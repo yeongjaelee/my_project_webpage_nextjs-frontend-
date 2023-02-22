@@ -20,8 +20,8 @@ const GET_BOARD = gql`
 }
 `;
 const GET_USER = gql`
-    query User($identification:String!){
-      user(identification:$identification) {
+    query User($token:String!){
+      user(token:$token) {
         id
         identification
         username
@@ -50,7 +50,7 @@ const Board = () => {
     const router = useRouter()
     const [boards, setBoards] = useState<any[]>([])
     const my_function = async ()=>{
-        const identification = localStorage.getItem('identification')
+        const token = localStorage.getItem('token')
         const {data} = await client.query({
             query: GET_BOARD, variables: {
                 offset: (currentPage-1) * 5,
@@ -58,7 +58,7 @@ const Board = () => {
         })
         // @ts-ignore
         const {data:user_data} = await client.query({query:GET_USER, variables:{
-            'identification': identification
+            'token': token
             }})
         //setIsAdmin(user_data)
         setIsAdmin(user_data.user.isAdmin)
