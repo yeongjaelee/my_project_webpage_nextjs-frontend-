@@ -16,6 +16,9 @@ const link = createUploadLink({
 const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
     const token = localStorage.getItem('token')
+    if (!token){
+        window.location.replace('/Login')
+    }
     console.log(22222)
     return {
         headers: {
@@ -25,9 +28,6 @@ const authLink = setContext((_, { headers }) => {
     }
 });
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-    console.log(122323)
-    console.log(111111)
-
     if (graphQLErrors) {
         graphQLErrors.map(({ message, locations, path }) =>
             // eslint-disable-next-line no-console
@@ -38,10 +38,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     }
     // eslint-disable-next-line no-console
     if (networkError) console.log(`[Network error]: ${networkError}`);
-    console.log(33333)
     window.location.replace('/Login')
-    // redirect('https://www.naver.com/')
-    console.log(444444)
 });
 const client = new ApolloClient({
     cache: new InMemoryCache(),
